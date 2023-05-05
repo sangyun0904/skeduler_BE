@@ -1,5 +1,6 @@
-package com.example.skeduler;
+package com.example.skeduler.repositories;
 
+import com.example.skeduler.model.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

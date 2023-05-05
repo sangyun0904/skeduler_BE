@@ -1,4 +1,4 @@
-package com.example.skeduler;
+package com.example.skeduler.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

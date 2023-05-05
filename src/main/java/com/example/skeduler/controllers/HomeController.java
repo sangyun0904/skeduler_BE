@@ -1,5 +1,7 @@
-package com.example.skeduler;
+package com.example.skeduler.controllers;
 
+import com.example.skeduler.model.Member;
+import com.example.skeduler.services.OAuth2userService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -22,12 +24,12 @@ public class HomeController {
     @GetMapping("/user")
     public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
         Member member = new Member();
-        member.setUsername(principal.getName());
+        member.setUsername(principal.getAttribute("name"));
         member.setEmail(principal.getAttribute("email"));
 
         oAuth2userService.join(member);
 
-        return Collections.singletonMap("user : ", principal);
+        return Collections.singletonMap("name", principal.getAttribute("name"));
     }
 
 }

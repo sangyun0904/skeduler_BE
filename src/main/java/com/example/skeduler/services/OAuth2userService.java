@@ -1,5 +1,7 @@
-package com.example.skeduler;
+package com.example.skeduler.services;
 
+import com.example.skeduler.repositories.MemberRepository;
+import com.example.skeduler.model.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
