@@ -25,6 +25,15 @@
             })
             return true;
         }
+        var submit = function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/task", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                userId: 1,
+                content: "Google Job Interview"
+            }));
+        }
     </script>
 </head>
 <body>
@@ -38,6 +47,10 @@
 </div>
 <div class="container authenticated" style="display:none">
     Logged in as: <span id="user"></span>
+    <div>
+        <textarea id="content" name="content" rows="4" cols="50"></textarea>
+        <button onClick="submit()">submit</button><br>
+    </div>
     <div>
         <button onClick="logout()" class="btn btn-primary">Logout</button>
     </div>

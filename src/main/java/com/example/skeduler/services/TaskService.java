@@ -24,4 +24,9 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public Long craete(Task task) {
+        taskRepository.save(task);
+        return task.getId();
+    }
+
 }
