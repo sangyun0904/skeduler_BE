@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -22,14 +23,18 @@ public class HomeController {
     }
 
     @GetMapping("/user")
-    public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
+    public Map<String, String> user(@AuthenticationPrincipal OAuth2User principal) {
         Member member = new Member();
         member.setUsername(principal.getAttribute("name"));
         member.setEmail(principal.getAttribute("email"));
 
-        oAuth2userService.join(member);
+        long userId = oAuth2userService.join(member);
 
-        return Collections.singletonMap("name", principal.getAttribute("name"));
+        Map<String, String> m1 = new HashMap<String, String>();
+        m1.put("name", principal.getAttribute("name"));
+        m1.put("id", userId+"");
+
+        return m1;
     }
 
 }

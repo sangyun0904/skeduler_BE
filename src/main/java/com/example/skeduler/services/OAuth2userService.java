@@ -5,6 +5,8 @@ import com.example.skeduler.model.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class OAuth2userService {
@@ -17,22 +19,17 @@ public class OAuth2userService {
 
     public long join(Member member) {
 
-        try {
-            validateDuplicateEmail(member);
+        Optional<Member> member1 = memberRepository.findByEmail(member.getEmail());
+
+        if (member1.isPresent()) {
+            return member1.get().getId();
+        }
+        else {
             memberRepository.save(member);
             return member.getId();
-        } catch (Exception e) {
-            System.out.println(e);
         }
-        return -1;
 
     }
 
-    private void validateDuplicateEmail(Member member) {
-        memberRepository.findByEmail(member.getEmail())
-                .ifPresent(mem -> {
-                    throw new IllegalStateException("exist member");
-                });
-    }
 
 }

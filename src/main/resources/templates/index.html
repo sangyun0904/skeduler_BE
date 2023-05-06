@@ -12,10 +12,14 @@
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
+        var userdata;
+
         $.get("/user", function(data) {
+            userdata = data;
             $("#user").html(data.name);
-            $(".unauthenticated").hide()
-            $(".authenticated").show()
+            $(".unauthenticated").hide();
+            $(".authenticated").show();
+            console.log(userdata);
         });
         var logout = function() {
             $.post("/logout", function() {
@@ -30,9 +34,10 @@
             xhr.open("POST", "/task", true);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify({
-                userId: 1,
-                content: "Google Job Interview"
+                userId: userdata.id,
+                content: $("#content").val()
             }));
+            $("#content").val("");
         }
     </script>
 </head>
