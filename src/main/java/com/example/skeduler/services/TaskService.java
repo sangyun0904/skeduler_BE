@@ -20,8 +20,8 @@ public class TaskService {
         return task.getId();
     }
 
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+    public List<Task> getAllTasks(Long userId) {
+        return taskRepository.findByUserId(userId);
     }
 
     public Long craete(Task task) {

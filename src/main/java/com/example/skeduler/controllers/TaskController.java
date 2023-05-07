@@ -3,10 +3,7 @@ package com.example.skeduler.controllers;
 import com.example.skeduler.model.Task;
 import com.example.skeduler.repositories.TaskRepository;
 import com.example.skeduler.services.TaskService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,8 +17,8 @@ public class TaskController {
     }
 
     @GetMapping("/task/{userId}")
-    public List<Task> allTasks() {
-        return taskService.getAllTasks();
+    public List<Task> allTasks(@PathVariable(value = "userId") Long userId) {
+        return taskService.getAllTasks(userId);
     }
 
     @PostMapping("/task")
