@@ -35,9 +35,13 @@
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify({
                 userId: userdata.id,
-                content: $("#content").val()
+                content: $("#content").val(),
+                startDateTime: $("#start").val(),
+                endDateTime: $("#end").val()
             }));
             $("#content").val("");
+            $("#start").val("");
+            $("#end").val("");
         }
     </script>
 </head>
@@ -51,9 +55,11 @@
     With Google: <a href="/oauth2/authorization/google">click here</a>
 </div>
 <div class="container authenticated" style="display:none">
-    Logged in as: <span id="user"></span>
+    Logged in as: <span id="user"></span><br><br>
     <div>
-        <textarea id="content" name="content" rows="4" cols="50"></textarea>
+        <textarea id="content" name="content" rows="4" cols="50"></textarea><br><br>
+        start date : <input id="start" name="start"><br><br>
+        end date : <input id="end" name="end"> &nbsp;&nbsp;&nbsp;&nbsp;
         <button onClick="submit()">submit</button><br>
     </div>
     <div>

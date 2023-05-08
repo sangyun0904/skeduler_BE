@@ -3,6 +3,7 @@ package com.example.skeduler.controllers;
 import com.example.skeduler.model.Task;
 import com.example.skeduler.repositories.TaskRepository;
 import com.example.skeduler.services.TaskService;
+import com.example.skeduler.services.dto.TaskDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class TaskController {
     }
 
     @PostMapping("/task")
-    public long createTask(@RequestBody Task task) {
-        return taskService.create(task);
+    public long createTask(@RequestBody TaskDto taskDto) {
+        return taskService.create(taskDto);
     }
 }

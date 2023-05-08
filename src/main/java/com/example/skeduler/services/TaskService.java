@@ -2,9 +2,11 @@ package com.example.skeduler.services;
 
 import com.example.skeduler.model.Task;
 import com.example.skeduler.repositories.TaskRepository;
+import com.example.skeduler.services.dto.TaskDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -15,7 +17,13 @@ public class TaskService {
 
     public TaskService(TaskRepository taskRepository) {this.taskRepository = taskRepository;}
 
-    public long create(Task task) {
+    public long create(TaskDto taskDto) {
+        Task task = new Task();
+        task.setContent(taskDto.getContent());
+        task.setId(taskDto.getUserId());
+        task.setStartDateTime(LocalDateTime.parse(taskDto.getStartDateTime() + "T00:00:00"));
+        task.setEndDateTime(LocalDateTime.parse(taskDto.getEndDateTime() + "T11:59:59"));
+        task.setUploadDateTime(LocalDateTime.now());
         taskRepository.save(task);
         return task.getId();
     }
