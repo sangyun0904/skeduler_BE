@@ -28,6 +28,8 @@ public class HomeController {
         member.setUsername(principal.getAttribute("name"));
         member.setEmail(principal.getAttribute("email"));
 
+        System.out.println(principal);
+
         long userId = oAuth2userService.join(member);
 
         Map<String, String> m1 = new HashMap<String, String>();
