@@ -1,10 +1,10 @@
-package com.example.skeduler.services.dto;
+package com.example.skeduler.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TaskDto {
 
     private String content;

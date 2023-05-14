@@ -1,9 +1,8 @@
 package com.example.skeduler.controllers;
 
 import com.example.skeduler.model.Task;
-import com.example.skeduler.repositories.TaskRepository;
 import com.example.skeduler.services.TaskService;
-import com.example.skeduler.services.dto.TaskDto;
+import com.example.skeduler.dto.TaskDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

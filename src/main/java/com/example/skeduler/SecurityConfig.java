@@ -18,7 +18,7 @@ public class SecurityConfig {
         http.csrf()
                 .disable()
             .authorizeRequests(a -> a
-                .requestMatchers("/", "/error", "/webjars/**").permitAll()
+                .requestMatchers("/").permitAll()
                 .anyRequest().authenticated()
             )
             .exceptionHandling(e -> e

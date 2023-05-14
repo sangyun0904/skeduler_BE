@@ -2,7 +2,7 @@ package com.example.skeduler.services;
 
 import com.example.skeduler.model.Task;
 import com.example.skeduler.repositories.TaskRepository;
-import com.example.skeduler.services.dto.TaskDto;
+import com.example.skeduler.dto.TaskDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
