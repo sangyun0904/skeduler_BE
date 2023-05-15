@@ -5,13 +5,16 @@ import com.example.skeduler.model.Member;
 import com.example.skeduler.model.VerificationToken;
 import com.example.skeduler.repositories.MemberRepository;
 import com.example.skeduler.repositories.VerificationTokenRepository;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
-public class MemberService {
+public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
     private final VerificationTokenRepository verificationTokenRepository;
@@ -40,5 +43,10 @@ public class MemberService {
 
         verificationTokenRepository.save(verificationToken);
         return token;
+    }
+
+    @Override
+    public Member loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
     }
 }
