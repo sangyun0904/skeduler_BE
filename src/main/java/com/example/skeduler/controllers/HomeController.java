@@ -28,6 +28,7 @@ public class HomeController {
         member.setUsername(principal.getAttribute("name"));
         member.setEmail(principal.getAttribute("email"));
 
+        System.out.println("slgjewl");
         System.out.println(principal);
 
         long userId = oAuth2userService.join(member);
@@ -35,6 +36,9 @@ public class HomeController {
         Map<String, String> m1 = new HashMap<String, String>();
         m1.put("name", principal.getAttribute("name"));
         m1.put("id", userId+"");
+
+        System.out.println("name : " + principal.getAttribute("name"));
+        System.out.println("id : " + userId+"");
 
         return m1;
     }
