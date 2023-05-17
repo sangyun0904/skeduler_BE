@@ -20,8 +20,18 @@ public class HomeController {
 
 
     @GetMapping("/{userId}")
-    public List<Task> user(@PathVariable Long userId) {
+    public List<Task> tasks(@PathVariable Long userId) {
        return taskService.getAllTasks(userId);
+    }
+
+    @GetMapping("/medium/{userId}")
+    public List<Task> importantTasks(@PathVariable Long userId) {
+        return taskService.getAllTasks(userId);
+    }
+
+    @GetMapping("/high/{userId}")
+    public List<Task> veryImportantTasks(@PathVariable Long userId) {
+        return taskService.getAllTasks(userId);
     }
 
 }

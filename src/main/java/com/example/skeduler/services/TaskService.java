@@ -24,6 +24,8 @@ public class TaskService {
         task.setStartDateTime(LocalDateTime.parse(taskDto.getStartDateTime() + "T00:00:00"));
         task.setEndDateTime(LocalDateTime.parse(taskDto.getEndDateTime() + "T11:59:59"));
         task.setUploadDateTime(LocalDateTime.now());
+        task.setImportant(taskDto.isImportant());
+        task.setVeryImportant(taskDto.isVeryImportant());
         taskRepository.save(task);
         return task.getId();
     }
@@ -32,9 +34,5 @@ public class TaskService {
         return taskRepository.findByUserId(userId);
     }
 
-    public Long craete(Task task) {
-        taskRepository.save(task);
-        return task.getId();
-    }
 
 }

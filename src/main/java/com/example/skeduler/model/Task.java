@@ -22,16 +22,7 @@ public class Task {
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     private LocalDateTime uploadDateTime;
+    private boolean important;
+    private boolean veryImportant;
 
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", userId=" + userId +
-                ", startDateTime=" + startDateTime +
-                ", endDateTime=" + endDateTime +
-                ", uploadDateTime=" + uploadDateTime +
-                '}';
-    }
 }
