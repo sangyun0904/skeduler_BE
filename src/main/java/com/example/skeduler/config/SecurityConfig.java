@@ -27,11 +27,16 @@ public class SecurityConfig {
         http
             .csrf()
             .disable()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
+//            .sessionManagement()
+//            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//            .and()
             .authorizeHttpRequests()
-            .requestMatchers("/", "/api/v1/auth/**")
+            .requestMatchers(
+                    "/",
+                    "/error",
+                    "/webjars/**",
+                    "/user")
+//                    "/v1/api/auth/**")
             .permitAll()
             .anyRequest()
             .authenticated()
@@ -40,10 +45,10 @@ public class SecurityConfig {
             .defaultSuccessUrl("/")
             .and()
             .logout()
-            .logoutSuccessUrl("/")
-            .and()
-            .authenticationProvider(authenticationProvider)
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+            .logoutSuccessUrl("/");
+//            .and()
+//            .authenticationProvider(authenticationProvider)
+//            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

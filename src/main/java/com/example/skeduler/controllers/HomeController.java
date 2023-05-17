@@ -1,46 +1,27 @@
 package com.example.skeduler.controllers;
 
-import com.example.skeduler.model.Member;
-import com.example.skeduler.services.OAuth2userService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import com.example.skeduler.model.Task;
+import com.example.skeduler.services.TaskService;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class HomeController {
 
-    private final OAuth2userService oAuth2userService;
+    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final TaskService taskService;
 
-    @Autowired
-    public HomeController(OAuth2userService oAuth2userService) {
-        this.oAuth2userService = oAuth2userService;
-    }
 
-    @GetMapping("/user")
-    public Map<String, String> user(@AuthenticationPrincipal OAuth2User principal) {
-        Member member = new Member();
-        member.setUsername(principal.getAttribute("name"));
-        member.setEmail(principal.getAttribute("email"));
-
-        System.out.println("slgjewl");
-        System.out.println(principal);
-
-        long userId = oAuth2userService.join(member);
-
-        Map<String, String> m1 = new HashMap<String, String>();
-        m1.put("name", principal.getAttribute("name"));
-        m1.put("id", userId+"");
-
-        System.out.println("name : " + principal.getAttribute("name"));
-        System.out.println("id : " + userId+"");
-
-        return m1;
+    @GetMapping("/{userId}")
+    public List<Task> user(@PathVariable Long userId) {
+       return taskService.getAllTasks(userId);
     }
 
 }
