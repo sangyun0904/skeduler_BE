@@ -18,6 +18,8 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+
+    @NonNull
     private Long userId;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;

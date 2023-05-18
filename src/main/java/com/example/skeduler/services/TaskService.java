@@ -1,21 +1,21 @@
 package com.example.skeduler.services;
 
 import com.example.skeduler.model.Task;
-import com.example.skeduler.repositories.TaskRepository;
 import com.example.skeduler.dto.TaskDto;
+import com.example.skeduler.repositories.TaskRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class TaskService {
 
     private final TaskRepository taskRepository;
 
-    public TaskService(TaskRepository taskRepository) {this.taskRepository = taskRepository;}
 
     public long create(TaskDto taskDto) {
         Task task = new Task();
@@ -29,6 +29,8 @@ public class TaskService {
         taskRepository.save(task);
         return task.getId();
     }
+
+    public Optional<Task> getTask(Long id) { return taskRepository.findById(id); }
 
     public List<Task> getAllTasks(Long userId) {
         return taskRepository.findByUserId(userId);
