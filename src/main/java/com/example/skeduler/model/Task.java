@@ -22,7 +22,6 @@ public class Task {
     @NonNull
     private Long userId;
     private LocalDateTime startDateTime;
-    private LocalDateTime endDateTime;
     private LocalDateTime uploadDateTime;
     private boolean important;
     private boolean veryImportant;

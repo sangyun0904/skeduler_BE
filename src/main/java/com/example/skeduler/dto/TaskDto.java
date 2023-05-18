@@ -9,8 +9,8 @@ public class TaskDto {
 
     private String content;
     private Long userId;
-    private String startDateTime;
-    private String endDateTime;
+    private String startDate;
+    private String startTime;
     private boolean important;
     private boolean veryImportant;
 }

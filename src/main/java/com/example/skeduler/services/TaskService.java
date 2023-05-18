@@ -21,8 +21,7 @@ public class TaskService {
         Task task = new Task();
         task.setContent(taskDto.getContent());
         task.setId(taskDto.getUserId());
-        task.setStartDateTime(LocalDateTime.parse(taskDto.getStartDateTime() + "T00:00:00"));
-        task.setEndDateTime(LocalDateTime.parse(taskDto.getEndDateTime() + "T11:59:59"));
+        task.setStartDateTime(LocalDateTime.parse(taskDto.getStartDate() + "T" + taskDto.getStartTime() + ":00"));
         task.setUploadDateTime(LocalDateTime.now());
         task.setImportant(taskDto.isImportant());
         task.setVeryImportant(taskDto.isVeryImportant());
@@ -36,5 +35,11 @@ public class TaskService {
         return taskRepository.findByUserId(userId);
     }
 
+    private void validateTask(Long userId, LocalDateTime startTime) {
+        taskRepository.findByUserIdAndStartDateTime(userId, startTime)
+                .ifPresent(e -> {
+                    throw new IllegalStateException("그 시간은 이미 채워져 있습니다.");
+                });
+    }
 
 }
