@@ -21,17 +21,15 @@ class TaskServiceTest {
         taskDto.setContent("hello");
         taskDto.setImportant(true);
         taskDto.setVeryImportant(false);
-        taskDto.setEndDateTime("2023-09-04");
-        taskDto.setStartDateTime("2023-05-18");
+        taskDto.setStartDate("2023-10-11");
+        taskDto.setStartTime("10:30");
         taskDto.setUserId((long) 1);
 
         long id = taskService.create(taskDto);
 
         Assertions.assertThat(taskService.getTask(id).get().getContent()).isEqualTo("hello");
 
-
     }
-
 
 
 }

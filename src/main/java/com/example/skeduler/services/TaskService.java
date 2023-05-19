@@ -22,7 +22,6 @@ public class TaskService {
         task.setContent(taskDto.getContent());
         task.setId(taskDto.getUserId());
         task.setStartDateTime(LocalDateTime.parse(taskDto.getStartDate() + "T" + taskDto.getStartTime() + ":00"));
-        task.setUploadDateTime(LocalDateTime.now());
         task.setImportant(taskDto.isImportant());
         task.setVeryImportant(taskDto.isVeryImportant());
         taskRepository.save(task);

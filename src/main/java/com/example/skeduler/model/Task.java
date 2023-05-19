@@ -10,19 +10,22 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NonNull
+    private String title;
     private String content;
 
     @NonNull
     private Long userId;
+    @NonNull
     private LocalDateTime startDateTime;
-    private LocalDateTime uploadDateTime;
+    private final LocalDateTime uploadDateTime = LocalDateTime.now();
     private boolean important;
     private boolean veryImportant;
 
