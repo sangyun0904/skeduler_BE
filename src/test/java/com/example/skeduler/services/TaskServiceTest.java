@@ -31,5 +31,27 @@ class TaskServiceTest {
 
     }
 
+    @Test
+    void 테스크_생성_모든입력() {
+
+        TaskDto taskDto = TaskDto
+                .builder()
+                .title("hello")
+                .userId((long) 1)
+                .content("hello task")
+                .startDate("2023-01-01")
+                .startTime("10:30")
+                .important(true)
+                .veryImportant(true)
+                .build();
+
+        long id = taskService.create(taskDto);
+
+        Assertions.assertThat(taskService.getTask(id).get().getContent()).isEqualTo("hello task");
+        Assertions.assertThat(taskService.getTask(id).get().isImportant()).isEqualTo(true);
+        Assertions.assertThat(taskService.getTask(id).get().isVeryImportant()).isEqualTo(true);
+
+    }
+
 
 }
