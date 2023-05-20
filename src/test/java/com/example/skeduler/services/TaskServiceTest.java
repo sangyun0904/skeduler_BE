@@ -17,17 +17,17 @@ class TaskServiceTest {
     @Test
     void 테스크_생성() {
 
-        TaskDto taskDto = new TaskDto();
-        taskDto.setContent("hello");
-        taskDto.setImportant(true);
-        taskDto.setVeryImportant(false);
-        taskDto.setStartDate("2023-10-11");
-        taskDto.setStartTime("10:30");
-        taskDto.setUserId((long) 1);
+        TaskDto taskDto = TaskDto
+                .builder()
+                .title("hello")
+                .userId((long) 1)
+                .startDate("2023-01-01")
+                .startTime("10:30")
+                .build();
 
         long id = taskService.create(taskDto);
 
-        Assertions.assertThat(taskService.getTask(id).get().getContent()).isEqualTo("hello");
+        Assertions.assertThat(taskService.getTask(id).get().getTitle()).isEqualTo("hello");
 
     }
 

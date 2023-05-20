@@ -8,10 +8,11 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
 @Entity
+@Getter
+@Builder
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class Task {
 
     @Id
@@ -19,14 +20,18 @@ public class Task {
     private Long id;
     @NonNull
     private String title;
-    private String content;
+    @Builder.Default
+    private String content = "";
 
     @NonNull
     private Long userId;
     @NonNull
     private LocalDateTime startDateTime;
+    @Builder.Default
     private final LocalDateTime uploadDateTime = LocalDateTime.now();
-    private boolean important;
-    private boolean veryImportant;
+    @Builder.Default
+    private boolean important = false;
+    @Builder.Default
+    private boolean veryImportant = false;
 
 }

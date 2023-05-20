@@ -18,12 +18,14 @@ public class TaskService {
 
 
     public long create(TaskDto taskDto) {
-        Task task = new Task();
-        task.setContent(taskDto.getContent());
-        task.setId(taskDto.getUserId());
-        task.setStartDateTime(LocalDateTime.parse(taskDto.getStartDate() + "T" + taskDto.getStartTime() + ":00"));
-        task.setImportant(taskDto.isImportant());
-        task.setVeryImportant(taskDto.isVeryImportant());
+        Task task = Task.builder()
+                .title(taskDto.getTitle())
+                .userId(taskDto.getUserId())
+                .content(taskDto.getContent())
+                .startDateTime(LocalDateTime.parse(taskDto.getStartDate() + "T" + taskDto.getStartTime() + ":00"))
+                .important(taskDto.isImportant())
+                .veryImportant(taskDto.isVeryImportant())
+                .build();
         taskRepository.save(task);
         return task.getId();
     }

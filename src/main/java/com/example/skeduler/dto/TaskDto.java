@@ -2,20 +2,23 @@ package com.example.skeduler.dto;
 
 import lombok.*;
 
-@Data
-@NoArgsConstructor
+@Getter
+@Builder
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class TaskDto {
 
+    @NonNull
     private String title;
-    private String content;
+    @Builder.Default
+    private String content = "";
     @NonNull
     private Long userId;
+    @NonNull
     private String startDate;
+    @NonNull
     private String startTime;
-    private String endDate;
-    private String endTime;
-    private boolean important;
-    private boolean veryImportant;
+    @Builder.Default
+    private boolean important = false;
+    @Builder.Default
+    private boolean veryImportant = false;
 }
