@@ -1,17 +1,33 @@
 package com.example.skeduler.services;
 
 import com.example.skeduler.dto.TaskDto;
+import com.example.skeduler.model.Task;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import javax.sql.DataSource;
 
 @SpringBootTest
 class TaskServiceTest {
 
     @Autowired
+    DataSource dataSource;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @Autowired
     private TaskService taskService;
+
+    @AfterEach
+    public void afterEach() {
+
+    }
 
 
     @Test
@@ -53,5 +69,22 @@ class TaskServiceTest {
 
     }
 
+    @Test
+    void 테스크_필수입력_에러() {
 
+        try {
+            TaskDto taskDto = TaskDto.builder()
+                    .userId((long) 1)
+                    .content("hello")
+                    .build();
+        } catch (Exception e) {
+            Assertions.assertThat(e.getMessage()).isEqualTo("title is marked non-null but is null");
+        }
+
+    }
+
+
+    @Test
+    void 같은시간_테스크_중복() {
+    }
 }
