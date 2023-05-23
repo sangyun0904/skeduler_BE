@@ -21,15 +21,59 @@ provider "aws" {
 
 resource "aws_vpc" "skeduler-vpc" {
   cidr_block = "10.0.0.0/16"
-}
-
-resource "aws_subnet" "subnet-1" {
-  vpc_id     = aws_vpc.skeduler-vpc.id
-  cidr_block = "10.0.1.0/24"
 
   tags = {
-    Name = "public-subnet1"
+    Name = "Skeduler VPC"
   }
+}
+
+resource "aws_subnet" "public_subnets" {
+  count             = length(var.public_subnet_cidrs)
+  vpc_id            = aws_vpc.skeduler-vpc.id
+  cidr_block        = element(var.public_subnet_cidrs, count.index)
+  availability_zone = element(var.azs, count.index)
+
+  tags = {
+    Name = "Public Subnet ${count.index + 1}"
+  }
+}
+
+resource "aws_subnet" "private_subnets" {
+  count             = length(var.private_subnet_cidrs)
+  vpc_id            = aws_vpc.skeduler-vpc.id
+  cidr_block        = element(var.private_subnet_cidrs, count.index)
+  availability_zone = element(var.azs, count.index)
+
+  tags = {
+    Name = "Private Subnet ${count.index + 1}"
+  }
+}
+
+resource "aws_internet_gateway" "skeduler-gw" {
+    vpc_id = aws_vpc.skeduler-vpc.id 
+
+    tags = {
+        Name = "Skeduler VPC IG"
+    }
+}
+
+resource "aws_route_table" "skeduler-second-rt" {
+ vpc_id = aws_vpc.skeduler-vpc.id
+ 
+ route {
+   cidr_block = "0.0.0.0/0"
+   gateway_id = aws_internet_gateway.skeduler-gw.id
+ }
+ 
+ tags = {
+   Name = "Skeduler 2nd Route Table"
+ }
+}
+
+resource "aws_route_table_association" "public_subnet_asso" {
+ count          = length(var.public_subnet_cidrs)
+ subnet_id      = element(aws_subnet.public_subnets[*].id, count.index)
+ route_table_id = aws_route_table.skeduler-second-rt.id
 }
 
 resource "aws_instance" "skeduler-app-server" {
@@ -37,9 +81,10 @@ resource "aws_instance" "skeduler-app-server" {
   instance_type = "t2.micro"
 
   tags = {
-    Name = "SkedulerAppServerInstance"
+    Name = "Skeduler AppServer Instance"
   }
 }
+
 
 resource "aws_db_instance" "skeduler-db" {
     allocated_storage   = 10
