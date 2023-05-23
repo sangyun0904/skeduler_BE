@@ -1,25 +1,15 @@
 package com.example.skeduler.services;
 
 import com.example.skeduler.dto.TaskDto;
-import com.example.skeduler.model.Task;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import javax.sql.DataSource;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class TaskServiceTest {
-
-    @Autowired
-    DataSource dataSource;
-
-    @Autowired
-    JdbcTemplate jdbcTemplate;
 
     @Autowired
     private TaskService taskService;
@@ -43,7 +33,7 @@ class TaskServiceTest {
 
         long id = taskService.create(taskDto);
 
-        Assertions.assertThat(taskService.getTask(id).get().getTitle()).isEqualTo("hello");
+        assertThat(taskService.getTask(id).get().getTitle()).isEqualTo("hello");
 
     }
 
@@ -55,17 +45,17 @@ class TaskServiceTest {
                 .title("hello")
                 .userId((long) 1)
                 .content("hello task")
-                .startDate("2023-01-01")
-                .startTime("10:30")
+                .startDate("2023-01-02")
+                .startTime("11:30")
                 .important(true)
                 .veryImportant(true)
                 .build();
 
         long id = taskService.create(taskDto);
 
-        Assertions.assertThat(taskService.getTask(id).get().getContent()).isEqualTo("hello task");
-        Assertions.assertThat(taskService.getTask(id).get().isImportant()).isEqualTo(true);
-        Assertions.assertThat(taskService.getTask(id).get().isVeryImportant()).isEqualTo(true);
+        assertThat(taskService.getTask(id).get().getContent()).isEqualTo("hello task");
+        assertThat(taskService.getTask(id).get().isImportant()).isEqualTo(true);
+        assertThat(taskService.getTask(id).get().isVeryImportant()).isEqualTo(true);
 
     }
 
@@ -78,7 +68,7 @@ class TaskServiceTest {
                     .content("hello")
                     .build();
         } catch (Exception e) {
-            Assertions.assertThat(e.getMessage()).isEqualTo("title is marked non-null but is null");
+            assertThat(e.getMessage()).isEqualTo("title is marked non-null but is null");
         }
 
     }
@@ -86,5 +76,28 @@ class TaskServiceTest {
 
     @Test
     void 같은시간_테스크_중복() {
+
+        TaskDto taskDto1 = TaskDto
+                .builder()
+                .title("bye1")
+                .userId((long) 1)
+                .startDate("2023-01-03")
+                .startTime("10:30")
+                .build();
+
+        taskService.create(taskDto1);
+
+        TaskDto taskDto2 = TaskDto
+                .builder()
+                .title("bye2")
+                .userId((long) 1)
+                .startDate("2023-01-03")
+                .startTime("10:30")
+                .build();
+
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> taskService.create(taskDto2));
+        assertThat(e.getMessage()).isEqualTo("그 시간은 이미 채워져 있습니다.");
+
+
     }
 }

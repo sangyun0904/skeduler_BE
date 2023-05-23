@@ -5,12 +5,14 @@ import com.example.skeduler.dto.TaskDto;
 import com.example.skeduler.repositories.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class TaskService {
 
@@ -18,6 +20,11 @@ public class TaskService {
 
 
     public long create(TaskDto taskDto) {
+        long userId = taskDto.getUserId();
+        LocalDateTime dateTime = LocalDateTime.parse(taskDto.getStartDate() + "T" + taskDto.getStartTime() + ":00");
+
+        validateTask(userId, dateTime);
+
         Task task = Task.builder()
                 .title(taskDto.getTitle())
                 .userId(taskDto.getUserId())
@@ -28,6 +35,7 @@ public class TaskService {
                 .build();
         taskRepository.save(task);
         return task.getId();
+
     }
 
     public Optional<Task> getTask(Long id) { return taskRepository.findById(id); }
