@@ -100,4 +100,29 @@ class TaskServiceTest {
 
 
     }
+
+    @Test
+    void 테스크_수정() {
+        TaskDto taskDto1 = TaskDto
+                .builder()
+                .title("bye1")
+                .userId((long) 1)
+                .startDate("2023-01-04")
+                .startTime("10:30")
+                .build();
+
+        long taskId1 = taskService.create(taskDto1);
+
+        TaskDto taskDto2 = TaskDto
+                .builder()
+                .title("bye2")
+                .userId((long) 1)
+                .startDate("2023-01-04")
+                .startTime("11:30")
+                .build();
+
+        long taskId2 = taskService.updateTask(taskId1, taskDto2);
+
+        assertThat(taskService.getTask(taskId1).get().getTitle()).isEqualTo("bye2");
+    }
 }

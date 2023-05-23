@@ -51,4 +51,19 @@ public class TaskService {
                 });
     }
 
+    public long updateTask(long taskId, TaskDto taskDto) {
+        Task task = Task.builder()
+                .id(taskId)
+                .title(taskDto.getTitle())
+                .userId(taskDto.getUserId())
+                .content(taskDto.getContent())
+                .startDateTime(LocalDateTime.parse(taskDto.getStartDate() + "T" + taskDto.getStartTime() + ":00"))
+                .important(taskDto.isImportant())
+                .veryImportant(taskDto.isVeryImportant())
+                .build();
+
+        taskRepository.save(task);
+        return task.getId();
+
+    }
 }
