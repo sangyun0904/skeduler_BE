@@ -4,16 +4,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-@Data
 @Entity
+@Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member implements UserDetails {
@@ -21,10 +20,14 @@ public class Member implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
     private String username;
+    @NonNull
     private String password;
-    private String email;
-    private String githubId;
+    @Builder.Default
+    private String email = "";
+    @Builder.Default
+    private String githubId = "";
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

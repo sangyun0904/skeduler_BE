@@ -39,4 +39,18 @@ public class MemberService implements UserDetailsService {
             .orElseGet(null);
     }
 
+    private void validateUser(String username) {
+        memberRepository.findByUsername(username)
+                .ifPresent(e -> {
+                    throw new IllegalStateException("이미 등록 된 회원입니다.");
+                });
+    }
+
+    public long create(Member member) {
+
+        validateUser(member.getUsername());
+
+        memberRepository.save(member);
+        return member.getId();
+    }
 }

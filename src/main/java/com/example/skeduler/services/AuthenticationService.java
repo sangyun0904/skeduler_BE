@@ -21,11 +21,13 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
 
     public AuthenticationResponseDto signup(RegisterRequestDto registerRequestDto) {
-        Member member = new Member();
-        member.setUsername(registerRequestDto.getUsername());
-        member.setEmail(registerRequestDto.getEmail());
-        member.setPassword(passwordEncoder.encode(registerRequestDto.getPassword()));
-        member.setGithubId(registerRequestDto.getGithubId());
+        Member member = Member
+                .builder()
+                .username(registerRequestDto.getUsername())
+                .email(registerRequestDto.getEmail())
+                .password(passwordEncoder.encode(registerRequestDto.getPassword()))
+                .githubId(registerRequestDto.getGithubId())
+                .build();
         memberRepository.save(member);
         var jwtToken = jwtService.generateAccessToken(member);
         return AuthenticationResponseDto.builder().token(jwtToken).build();
