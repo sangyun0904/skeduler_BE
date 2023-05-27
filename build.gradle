@@ -55,6 +55,9 @@ dependencies {
 	// Java bean validation provider
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	// java date and time classes to JSON
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2'
+
 }
 
 tasks.named('test') {
