@@ -27,28 +27,20 @@ public class SecurityConfig {
         http
             .csrf()
             .disable()
-//            .sessionManagement()
-//            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//            .and()
             .authorizeHttpRequests()
             .requestMatchers(
-                    "/",
-                    "/error",
-                    "/webjars/**",
-                    "/user")
-//                    "/v1/api/auth/**")
+                "/api/v1/auth/**",
+                "/error"
+            )
             .permitAll()
             .anyRequest()
             .authenticated()
             .and()
-            .oauth2Login()
-            .defaultSuccessUrl("/")
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .logout()
-            .logoutSuccessUrl("/");
-//            .and()
-//            .authenticationProvider(authenticationProvider)
-//            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
