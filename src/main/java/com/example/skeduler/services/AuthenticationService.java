@@ -23,26 +23,26 @@ public class AuthenticationService {
     public AuthenticationResponseDto signup(RegisterRequestDto registerRequestDto) {
         Member member = Member
                 .builder()
-                .username(registerRequestDto.getUsername())
-                .email(registerRequestDto.getEmail())
-                .password(passwordEncoder.encode(registerRequestDto.getPassword()))
-                .githubId(registerRequestDto.getGithubId())
+                .username(registerRequestDto.username())
+                .email(registerRequestDto.email())
+                .password(passwordEncoder.encode(registerRequestDto.password()))
+                .githubId(registerRequestDto.githubId())
                 .build();
         memberRepository.save(member);
         var jwtToken = jwtService.generateAccessToken(member);
-        return AuthenticationResponseDto.builder().token(jwtToken).build();
+        return new AuthenticationResponseDto(jwtToken);
     }
 
     public AuthenticationResponseDto authenticate(AuthenticationRequestDto request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
+                        request.username(),
+                        request.password()
                 )
         );
-        var member = memberRepository.findByUsername(request.getUsername())
+        var member = memberRepository.findByUsername(request.username())
                 .orElseThrow();
         var jwtToken = jwtService.generateAccessToken(member);
-        return AuthenticationResponseDto.builder().token(jwtToken).build();
+        return new AuthenticationResponseDto(jwtToken);
     }
 }

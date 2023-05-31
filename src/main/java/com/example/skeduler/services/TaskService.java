@@ -20,18 +20,18 @@ public class TaskService {
 
 
     public long create(TaskDto taskDto) {
-        long userId = taskDto.getUserId();
-        LocalDateTime dateTime = LocalDateTime.parse(taskDto.getStartDate() + "T" + taskDto.getStartTime() + ":00");
+        long userId = taskDto.userId();
+        LocalDateTime dateTime = LocalDateTime.parse(taskDto.startDate() + "T" + taskDto.startTime() + ":00");
 
         validateTask(userId, dateTime);
 
         Task task = Task.builder()
-                .title(taskDto.getTitle())
-                .userId(taskDto.getUserId())
-                .content(taskDto.getContent())
-                .startDateTime(LocalDateTime.parse(taskDto.getStartDate() + "T" + taskDto.getStartTime() + ":00"))
-                .important(taskDto.isImportant())
-                .veryImportant(taskDto.isVeryImportant())
+                .title(taskDto.title())
+                .userId(taskDto.userId())
+                .content(taskDto.content())
+                .startDateTime(LocalDateTime.parse(taskDto.startDate() + "T" + taskDto.startTime() + ":00"))
+                .important(taskDto.important())
+                .veryImportant(taskDto.veryImportant())
                 .build();
         taskRepository.save(task);
         return task.getId();
@@ -54,12 +54,12 @@ public class TaskService {
     public long updateTask(long taskId, TaskDto taskDto) {
         Task task = Task.builder()
                 .id(taskId)
-                .title(taskDto.getTitle())
-                .userId(taskDto.getUserId())
-                .content(taskDto.getContent())
-                .startDateTime(LocalDateTime.parse(taskDto.getStartDate() + "T" + taskDto.getStartTime() + ":00"))
-                .important(taskDto.isImportant())
-                .veryImportant(taskDto.isVeryImportant())
+                .title(taskDto.title())
+                .userId(taskDto.userId())
+                .content(taskDto.content())
+                .startDateTime(LocalDateTime.parse(taskDto.startDate() + "T" + taskDto.startTime() + ":00"))
+                .important(taskDto.important())
+                .veryImportant(taskDto.veryImportant())
                 .build();
 
         taskRepository.save(task);

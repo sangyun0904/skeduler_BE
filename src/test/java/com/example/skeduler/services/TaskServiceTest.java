@@ -23,34 +23,7 @@ class TaskServiceTest {
     @Test
     void 테스크_생성() {
 
-        TaskDto taskDto = TaskDto
-                .builder()
-                .title("hello")
-                .userId((long) 1)
-                .startDate("2023-01-01")
-                .startTime("10:30")
-                .build();
-
-        long id = taskService.create(taskDto);
-
-        assertThat(taskService.getTask(id).get().getTitle()).isEqualTo("hello");
-
-    }
-
-    @Test
-    void 테스크_생성_모든입력() {
-
-        TaskDto taskDto = TaskDto
-                .builder()
-                .title("hello")
-                .userId((long) 1)
-                .content("hello task")
-                .startDate("2023-01-02")
-                .startTime("11:30")
-                .important(true)
-                .veryImportant(true)
-                .build();
-
+        TaskDto taskDto = new TaskDto("hello", "hello task",  (long) 1, "2023-01-01", "10:30", true, true);
         long id = taskService.create(taskDto);
 
         assertThat(taskService.getTask(id).get().getContent()).isEqualTo("hello task");
@@ -59,41 +32,14 @@ class TaskServiceTest {
 
     }
 
-    @Test
-    void 테스크_필수입력_에러() {
-
-        try {
-            TaskDto taskDto = TaskDto.builder()
-                    .userId((long) 1)
-                    .content("hello")
-                    .build();
-        } catch (Exception e) {
-            assertThat(e.getMessage()).isEqualTo("title is marked non-null but is null");
-        }
-
-    }
-
 
     @Test
     void 같은시간_테스크_중복() {
 
-        TaskDto taskDto1 = TaskDto
-                .builder()
-                .title("bye1")
-                .userId((long) 1)
-                .startDate("2023-01-03")
-                .startTime("10:30")
-                .build();
-
+        TaskDto taskDto1 = new TaskDto("bye1", "",  (long) 1, "2023-01-03", "10:30", false, false);
         taskService.create(taskDto1);
 
-        TaskDto taskDto2 = TaskDto
-                .builder()
-                .title("bye2")
-                .userId((long) 1)
-                .startDate("2023-01-03")
-                .startTime("10:30")
-                .build();
+        TaskDto taskDto2 = new TaskDto("bye2", "",  (long) 1, "2023-01-03", "10:30", false, false);
 
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> taskService.create(taskDto2));
         assertThat(e.getMessage()).isEqualTo("그 시간은 이미 채워져 있습니다.");
@@ -103,25 +49,14 @@ class TaskServiceTest {
 
     @Test
     void 테스크_수정() {
-        TaskDto taskDto1 = TaskDto
-                .builder()
-                .title("bye1")
-                .userId((long) 1)
-                .startDate("2023-01-04")
-                .startTime("10:30")
-                .build();
+
+        TaskDto taskDto1 = new TaskDto("bye1", "content",  (long) 1, "2023-01-04", "10:30", false, false);
 
         long taskId1 = taskService.create(taskDto1);
 
-        TaskDto taskDto2 = TaskDto
-                .builder()
-                .title("bye2")
-                .userId((long) 1)
-                .startDate("2023-01-04")
-                .startTime("11:30")
-                .build();
+        TaskDto taskDto2 = new TaskDto("bye2", "",  (long) 1, "2023-01-04", "10:30", false, false);
 
-        long taskId2 = taskService.updateTask(taskId1, taskDto2);
+        taskService.updateTask(taskId1, taskDto2);
 
         assertThat(taskService.getTask(taskId1).get().getTitle()).isEqualTo("bye2");
     }
