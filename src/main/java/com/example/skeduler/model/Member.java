@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -52,5 +53,18 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return Objects.equals(getId(), member.getId()) && getUsername().equals(member.getUsername()) && getPassword().equals(member.getPassword()) && Objects.equals(getEmail(), member.getEmail()) && Objects.equals(getGithubId(), member.getGithubId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUsername(), getPassword(), getEmail(), getGithubId());
     }
 }
