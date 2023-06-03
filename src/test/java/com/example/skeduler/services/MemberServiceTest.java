@@ -7,6 +7,7 @@ import com.example.skeduler.repositories.MemberRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -23,8 +24,8 @@ class MemberServiceTest {
     private AuthenticationService authenticationService;
 
     @BeforeEach
-    public void BeforeAll() {
-        RegisterRequestDto registerRequestDto = new RegisterRequestDto("sangyoon", "sang@naver.com", "password", "sang");
+    public void BeforeEach() {
+        RegisterRequestDto registerRequestDto = new RegisterRequestDto("sangyoon2", "sang@naver.com", "password", "sang");
 
         authenticationService.signup(registerRequestDto);
 
@@ -32,7 +33,7 @@ class MemberServiceTest {
 
     @Test
     void 맴버조회() {
-        assertThat(memberService.loadUserByUsername("sangyoon").getUsername()).isEqualTo("sangyoon");
+        assertThat(memberService.loadUserByUsername("sangyoon2").getUsername()).isEqualTo("sangyoon2");
     }
 
 }
