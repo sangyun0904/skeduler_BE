@@ -44,6 +44,14 @@ public class TaskService {
         return taskRepository.findByUserId(userId);
     }
 
+    public List<Task> getImportantTasks(Long userId) {
+        return taskRepository.findByUserIdAndImportantTrue(userId);
+    }
+
+    public List<Task> getVeryImportantTasks(Long userId) {
+        return taskRepository.findByUserIdAndVeryImportantTrue(userId);
+    }
+
     private void validateTask(Long userId, LocalDateTime startTime) {
         taskRepository.findByUserIdAndStartDateTime(userId, startTime)
                 .ifPresent(e -> {
@@ -66,4 +74,5 @@ public class TaskService {
         return task.getId();
 
     }
+
 }
