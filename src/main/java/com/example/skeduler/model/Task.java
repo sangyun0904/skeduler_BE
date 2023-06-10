@@ -34,4 +34,17 @@ public class Task {
     @Builder.Default
     private boolean veryImportant = false;
 
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", userId=" + userId +
+                ", startDateTime=" + startDateTime +
+                ", uploadDateTime=" + uploadDateTime +
+                ", important=" + important +
+                ", veryImportant=" + veryImportant +
+                '}';
+    }
 }

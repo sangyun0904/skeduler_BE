@@ -67,4 +67,15 @@ public class Member implements UserDetails {
     public int hashCode() {
         return Objects.hash(getId(), getUsername(), getPassword(), getEmail(), getGithubId());
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", githubId='" + githubId + '\'' +
+                '}';
+    }
 }
