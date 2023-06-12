@@ -25,7 +25,7 @@ class TaskServiceTest {
     @Test
     void 테스크_생성() {
 
-        TaskDto taskDto = new TaskDto("hello", "hello task",  (long) 1, "2023-01-01", "10:30", true, true);
+        TaskDto taskDto = new TaskDto("hello", "hello task",  (long) 2, "2023-01-01", "10:30", true, true);
         long id = taskService.create(taskDto);
 
         assertThat(taskService.getTask(id).get().getContent()).isEqualTo("hello task");
@@ -38,10 +38,10 @@ class TaskServiceTest {
     @Test
     void 같은시간_테스크_중복() {
 
-        TaskDto taskDto1 = new TaskDto("bye1", "",  (long) 1, "2023-01-03", "10:30", false, false);
+        TaskDto taskDto1 = new TaskDto("bye1", "",  (long) 3, "2023-01-03", "10:30", false, false);
         taskService.create(taskDto1);
 
-        TaskDto taskDto2 = new TaskDto("bye2", "",  (long) 1, "2023-01-03", "10:30", false, false);
+        TaskDto taskDto2 = new TaskDto("bye2", "",  (long) 3, "2023-01-03", "10:30", false, false);
 
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> taskService.create(taskDto2));
         assertThat(e.getMessage()).isEqualTo("그 시간은 이미 채워져 있습니다.");
@@ -52,11 +52,11 @@ class TaskServiceTest {
     @Test
     void 테스크_수정() {
 
-        TaskDto taskDto1 = new TaskDto("bye1", "content",  (long) 1, "2023-01-04", "10:30", false, false);
+        TaskDto taskDto1 = new TaskDto("bye1", "content",  (long) 4, "2023-01-04", "10:30", false, false);
 
         long taskId1 = taskService.create(taskDto1);
 
-        TaskDto taskDto2 = new TaskDto("bye2", "",  (long) 1, "2023-01-04", "10:30", false, false);
+        TaskDto taskDto2 = new TaskDto("bye2", "",  (long) 4, "2023-01-04", "10:30", false, false);
 
         taskService.updateTask(taskId1, taskDto2);
 

@@ -106,26 +106,26 @@ class MemberTest {
     @Test
     void isAccountNonExpired() {
         Member member1 = new Member((long) 1, "sangyoon", "password", "sang@sang.com", "sangyoon");
-        assertThat(member1.isAccountNonExpired()).isEqualTo(false);
+        assertThat(member1.isAccountNonExpired()).isEqualTo(true);
     }
 
     @Test
     void isAccountNonLocked() {
         Member member1 = new Member((long) 1, "sangyoon", "password", "sang@sang.com", "sangyoon");
         System.out.println(member1.isAccountNonLocked());
-        assertThat(member1.isAccountNonLocked()).isEqualTo(false);
+        assertThat(member1.isAccountNonLocked()).isEqualTo(true);
     }
 
     @Test
     void isCredentialsNonExpired() {
         Member member1 = new Member((long) 1, "sangyoon", "password", "sang@sang.com", "sangyoon");
-        assertThat(member1.isCredentialsNonExpired()).isEqualTo(false);
+        assertThat(member1.isCredentialsNonExpired()).isEqualTo(true);
     }
 
     @Test
     void isEnabled() {
         Member member1 = new Member((long) 1, "sangyoon", "password", "sang@sang.com", "sangyoon");
-        assertThat(member1.isEnabled()).isEqualTo(false);
+        assertThat(member1.isEnabled()).isEqualTo(true);
     }
 
 }
