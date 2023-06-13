@@ -2,10 +2,14 @@ package com.example.skeduler.services;
 
 import com.example.skeduler.dto.TaskDto;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.time.LocalDate;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -16,9 +20,17 @@ class TaskServiceTest {
     @Autowired
     private TaskService taskService;
 
-    @AfterEach
+    @BeforeAll
     public void afterEach() {
-
+        taskService.create(new TaskDto("hello very important", "hello very important task",  (long) 1, "2022-01-01", "10:30", true, true));
+        taskService.create(new TaskDto("hello important", "hello important task",  (long) 1, "2022-01-01", "11:30", true, false));
+        taskService.create(new TaskDto("hello", "hello task",  (long) 1, "2022-01-01", "11:00", false, false));
+        taskService.create(new TaskDto("hello very important", "hello very important task",  (long) 1, "2022-01-01", "12:30", true, true));
+        taskService.create(new TaskDto("hello important", "hello important task",  (long) 1, "2022-01-01", "13:30", true, false));
+        taskService.create(new TaskDto("hello", "hello task",  (long) 1, "2022-01-01", "14:30", false, false));
+        taskService.create(new TaskDto("hello very important", "hello very important task",  (long) 1, "2022-01-01", "15:30", true, true));
+        taskService.create(new TaskDto("hello important", "hello important task",  (long) 1, "2022-01-01", "16:30", true, false));
+        taskService.create(new TaskDto("hello", "hello task",  (long) 1, "2022-01-01", "17:30", false, false));
     }
 
 
@@ -61,5 +73,11 @@ class TaskServiceTest {
         taskService.updateTask(taskId1, taskDto2);
 
         assertThat(taskService.getTask(taskId1).get().getTitle()).isEqualTo("bye2");
+    }
+
+    @Test
+    void 알람기능_테스트() {
+        LocalDate date = LocalDate.parse("2022-01-01");
+        System.out.println(taskService.getDayTask((long) 1, date));
     }
 }

@@ -76,7 +76,7 @@ public class TaskService {
 
     }
 
-    public List<Task> getDayTask(Long userId, LocalDate day) {
-        return taskRepository.findByUserIdAndDate(userId, day);
+    public List<Task> getDayTask(Long userId, LocalDate date) {
+        return taskRepository.findByUserIdAndDate(userId, date);
     }
 }

@@ -17,6 +17,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     Optional<Task> findById(Long id);
     Optional<Task> findByUserIdAndStartDateTime(Long userId, LocalDateTime startDateTime);
 
-    @Query(value = "SELECT * FROM Task WHERE user_id = ?1 and DATE(start_date_time) = ?2", nativeQuery = true)
+    @Query(value = "SELECT * FROM Task WHERE user_id = ?1 AND CAST(start_date_time AS DATE) = ?2", nativeQuery = true)
     List<Task> findByUserIdAndDate(Long userId, LocalDate date);
 }
