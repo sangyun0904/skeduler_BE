@@ -1,6 +1,7 @@
 package com.example.skeduler.services;
 
 import com.example.skeduler.dto.TaskDto;
+import com.example.skeduler.model.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -78,6 +80,10 @@ class TaskServiceTest {
     @Test
     void 알람기능_테스트() {
         LocalDate date = LocalDate.parse("2022-01-01");
-        System.out.println(taskService.getDayTask((long) 1, date));
+        List<Task> taskList = taskService.getDayTask((long) 1, date);
+        System.out.println(taskList);
+        for (Task task : taskList) {
+            assertThat(task.getStartDateTime().toLocalDate()).isEqualTo(date);
+        }
     }
 }

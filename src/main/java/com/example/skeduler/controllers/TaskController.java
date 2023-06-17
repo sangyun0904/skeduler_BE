@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -29,9 +30,16 @@ public class TaskController {
     }
 
     @GetMapping("/task/{userId}/{day}")
-    public LocalDateTime morningAlarm(@PathVariable(value = "userId") Long userId, @PathVariable(value = "day") LocalDate day) {
+    public LocalTime morningAlarm(@PathVariable(value = "userId") Long userId, @PathVariable(value = "day")  LocalDate day) {
         List<Task> taskList = taskService.getDayTask(userId, day);
-        return taskList.get(0).getStartDateTime();
+        LocalTime firstTaskTime = taskList.get(0).getStartDateTime().toLocalTime();
+        if (taskList.size() != 0) {
+            if (firstTaskTime.compareTo(LocalTime.NOON) < 0) {
+                return taskList.get(0).getStartDateTime().toLocalTime().minusHours(1);
+            }
+        }
+//        return taskList.get(0).getStartDateTime();
+        return LocalTime.NOON;
     }
 
 }
