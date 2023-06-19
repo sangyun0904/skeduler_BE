@@ -11,6 +11,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/task")
 public class TaskController {
 
     private final TaskService taskService;
@@ -19,17 +20,17 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/task/{userId}")
+    @GetMapping("/{userId}")
     public List<Task> allTasks(@PathVariable(value = "userId") Long userId) {
         return taskService.getAllTasks(userId);
     }
 
-    @PostMapping("/task")
+    @PostMapping("/")
     public long createTask(@RequestBody TaskDto taskDto) {
         return taskService.create(taskDto);
     }
 
-    @GetMapping("/task/{userId}/{day}")
+    @GetMapping("/{userId}/{day}")
     public LocalTime morningAlarm(@PathVariable(value = "userId") Long userId, @PathVariable(value = "day")  LocalDate day) {
         List<Task> taskList = taskService.getDayTask(userId, day);
         LocalTime firstTaskTime = taskList.get(0).getStartDateTime().toLocalTime();

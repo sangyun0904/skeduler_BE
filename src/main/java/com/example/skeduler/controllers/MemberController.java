@@ -1,8 +1,6 @@
 package com.example.skeduler.controllers;
 
-import com.example.skeduler.dto.AuthenticationRequestDto;
-import com.example.skeduler.dto.AuthenticationResponseDto;
-import com.example.skeduler.dto.RegisterRequestDto;
+import com.example.skeduler.dto.*;
 import com.example.skeduler.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +28,12 @@ public class MemberController {
             @RequestBody AuthenticationRequestDto request
             ) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
+    }
+    
+    @PostMapping("/refresh")
+    public ResponseEntity<RefreshAccessResponseDto> refresh(
+            @RequestBody RefreshAccessRequestDto request
+            ) {
+        return ResponseEntity.ok(authenticationService.refreshAuth(request));
     }
 }

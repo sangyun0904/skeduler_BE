@@ -29,8 +29,11 @@ public class SecurityConfig {
             .disable()
             .authorizeHttpRequests()
             .requestMatchers(
+                "/",
                 "/api/v1/auth/**",
-                "/error"
+                "/error",
+                "/swagger-ui/**",
+                "/v3/api-docs/**"
             )
             .permitAll()
             .anyRequest()

@@ -1,8 +1,6 @@
 package com.example.skeduler.services;
 
-import com.example.skeduler.dto.AuthenticationRequestDto;
-import com.example.skeduler.dto.AuthenticationResponseDto;
-import com.example.skeduler.dto.RegisterRequestDto;
+import com.example.skeduler.dto.*;
 import com.example.skeduler.model.Member;
 import com.example.skeduler.repositories.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +8,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +29,9 @@ public class AuthenticationService {
                 .githubId(registerRequestDto.githubId())
                 .build();
         memberRepository.save(member);
-        var jwtToken = jwtService.generateAccessToken(member);
-        return new AuthenticationResponseDto(jwtToken);
+        String accessToken = jwtService.generateAccessToken(member);
+        String refreshToken = jwtService.generateRefreshToken(member);
+        return new AuthenticationResponseDto(accessToken, refreshToken);
     }
 
     public AuthenticationResponseDto authenticate(AuthenticationRequestDto request) {
@@ -40,9 +41,22 @@ public class AuthenticationService {
                         request.password()
                 )
         );
-        var member = memberRepository.findByUsername(request.username())
+        Member member = memberRepository.findByUsername(request.username())
                 .orElseThrow();
-        var jwtToken = jwtService.generateAccessToken(member);
-        return new AuthenticationResponseDto(jwtToken);
+        String accessToken = jwtService.generateAccessToken(member);
+        String refreshToken = jwtService.generateRefreshToken(member);
+        return new AuthenticationResponseDto(accessToken, refreshToken);
+    }
+
+    public RefreshAccessResponseDto refreshAuth(RefreshAccessRequestDto request) {
+        String token = request.refreshToken();
+        String username = jwtService.extractUsername(token);
+
+        Member member = memberRepository.findByUsername(username)
+                .orElseThrow();
+
+        String accessToken = jwtService.generateAccessToken(member);
+
+        return new RefreshAccessResponseDto(accessToken);
     }
 }
