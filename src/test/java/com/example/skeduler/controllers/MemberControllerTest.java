@@ -1,6 +1,7 @@
 package com.example.skeduler.controllers;
 
 import com.example.skeduler.dto.AuthenticationRequestDto;
+import com.example.skeduler.dto.RefreshAccessRequestDto;
 import com.example.skeduler.dto.RegisterRequestDto;
 import com.example.skeduler.model.Member;
 import com.example.skeduler.services.JwtService;
@@ -37,7 +38,7 @@ class MemberControllerTest {
     void register() {
         RegisterRequestDto requestDto = new RegisterRequestDto("sang", "skgj@gmail.com", "password", "sang");
 
-        String token = memberController.register(requestDto).getBody().token();
+        String token = memberController.register(requestDto).getBody().accessToken();
         Member member = memberService.loadUserByUsername("sang");
 
         assertThat(jwtService.isTokenValid(token, member)).isEqualTo(true);
@@ -46,10 +47,23 @@ class MemberControllerTest {
     @Test
     void authenticate() {
         AuthenticationRequestDto requestDto = new AuthenticationRequestDto("sang", "password");
-        String token = memberController.authenticate(requestDto).getBody().token();
+        String token = memberController.authenticate(requestDto).getBody().accessToken();
 
         Member member = memberService.loadUserByUsername("sang");
 
         assertThat(jwtService.isTokenValid(token, member)).isEqualTo(true);
+    }
+
+    @Test
+    void refresh() {
+        AuthenticationRequestDto authenticationRequestDto = new AuthenticationRequestDto("sang", "password");
+        Member member = memberService.loadUserByUsername("sang");
+        String refreshToken = memberController.authenticate(authenticationRequestDto).getBody().refreshToken();
+
+        RefreshAccessRequestDto refreshAccessRequestDto = new RefreshAccessRequestDto(refreshToken);
+
+        String newToken = memberController.refresh(refreshAccessRequestDto).getBody().accessToken();
+
+        assertThat(jwtService.isTokenValid(newToken, member)).isEqualTo(true);
     }
 }

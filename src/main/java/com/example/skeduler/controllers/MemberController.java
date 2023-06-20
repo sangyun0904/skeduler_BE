@@ -29,7 +29,7 @@ public class MemberController {
             ) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
-    
+
     @PostMapping("/refresh")
     public ResponseEntity<RefreshAccessResponseDto> refresh(
             @RequestBody RefreshAccessRequestDto request

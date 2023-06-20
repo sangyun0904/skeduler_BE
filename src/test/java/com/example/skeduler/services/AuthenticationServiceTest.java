@@ -2,6 +2,7 @@ package com.example.skeduler.services;
 
 import com.example.skeduler.dto.AuthenticationRequestDto;
 import com.example.skeduler.dto.AuthenticationResponseDto;
+import com.example.skeduler.dto.RefreshAccessRequestDto;
 import com.example.skeduler.dto.RegisterRequestDto;
 import com.example.skeduler.repositories.MemberRepository;
 import org.aspectj.lang.annotation.Before;
@@ -24,26 +25,35 @@ class AuthenticationServiceTest {
     @Autowired
     JwtService jwtService;
 
-    private String token;
+    private String accesstoken;
+    private String refreshtoken;
 
     @BeforeAll
     public void beforeAll() {
         RegisterRequestDto dto = new RegisterRequestDto("sangyoon", "sy@gmail.com", "sypass", "sangyoon");
         AuthenticationResponseDto a = authenticationService.signup(dto);
-        token = a.token();
+        accesstoken = a.accessToken();
+        refreshtoken = a.refreshToken();
     }
 
     @Test
     void 회원가입() {
         RegisterRequestDto dto = new RegisterRequestDto("donghyun", "dh@gmail.com", "dhpass", "dooomhyun");
         AuthenticationResponseDto a = authenticationService.signup(dto);
-        assertThat(jwtService.extractUsername(a.token())).isEqualTo("donghyun");
+        assertThat(jwtService.extractUsername(a.accessToken())).isEqualTo("donghyun");
 
     }
 
     @Test
     void 로그인() {
-        AuthenticationResponseDto dto = new AuthenticationResponseDto(token);
-        assertThat(jwtService.extractUsername(token)).isEqualTo("sangyoon");
+        AuthenticationResponseDto dto = new AuthenticationResponseDto(accesstoken, refreshtoken);
+        assertThat(jwtService.extractUsername(accesstoken)).isEqualTo("sangyoon");
+    }
+
+    @Test
+    void refreshAccessToken() {
+        RefreshAccessRequestDto dto = new RefreshAccessRequestDto(refreshtoken);
+        String newToken = authenticationService.refreshAuth(dto).accessToken();
+        assertThat(jwtService.extractUsername(newToken)).isEqualTo("sangyoon");
     }
 }
