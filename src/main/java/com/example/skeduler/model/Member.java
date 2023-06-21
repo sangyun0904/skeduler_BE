@@ -1,9 +1,6 @@
 package com.example.skeduler.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,8 +19,10 @@ public class Member implements UserDetails {
     private Long id;
 
     @NonNull
+    @Column(nullable = false)
     private String username;
     @NonNull
+    @Column(nullable = false)
     private String password;
     @Builder.Default
     private String email = "";
