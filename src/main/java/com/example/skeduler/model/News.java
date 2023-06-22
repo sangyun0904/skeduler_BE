@@ -1,9 +1,6 @@
 package com.example.skeduler.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +26,9 @@ public class News {
     private String urlToImage;
     private LocalDateTime publishedDateTime;
     private String content;
+
+    @ManyToOne
+    private Category category;
 
     @Override
     public String toString() {

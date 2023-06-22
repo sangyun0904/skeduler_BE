@@ -34,6 +34,9 @@ public class Task {
     @Builder.Default
     private boolean veryImportant = false;
 
+    @ManyToOne
+    private Category category;
+
     @Override
     public String toString() {
         return "Task{" +
