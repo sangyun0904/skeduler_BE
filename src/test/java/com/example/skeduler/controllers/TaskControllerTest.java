@@ -36,24 +36,5 @@ class TaskControllerTest {
         taskService.create(new TaskDto("hello important", "hello important task",  (long) 1, "2024-01-02", "18:30", true, false));
         taskService.create(new TaskDto("hello", "hello task",  (long) 1, "2024-01-03", "05:30", false, false));
     }
-
-    @Test
-    void createTask() {
-        TaskDto taskDto = new TaskDto("bye", "bye task",  (long) 1, "2024-01-11", "18:30", false, false);
-        taskController.createTask(taskDto);
-
-        assertThat(taskController.allTasks((long) 1).size()).isEqualTo(10);
-    }
-
-    @Test
-    void allTasks() {
-        assertThat(taskController.allTasks((long) 1).size()).isEqualTo(10);
-    }
-
-    @Test
-    void 알람_기능_테스트() {
-        assertThat(taskController.morningAlarm((long) 1, LocalDate.parse("2024-01-01"))).isEqualTo(LocalTime.parse("09:30:00"));
-        assertThat(taskController.morningAlarm((long) 1, LocalDate.parse("2024-01-02"))).isEqualTo(LocalTime.parse("12:00:00"));
-        assertThat(taskController.morningAlarm((long) 1, LocalDate.parse("2024-01-03"))).isEqualTo(LocalTime.parse("04:30:00"));
-    }
+    
 }

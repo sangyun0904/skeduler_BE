@@ -33,13 +33,4 @@ class HomeControllerTest {
         assertThat(controller.tasks((long) 1).size()).isEqualTo(3);
     }
 
-    @Test
-    void importantTasks() {
-        assertThat(controller.importantTasks((long) 1).size()).isEqualTo(2);
-    }
-
-    @Test
-    void veryImportantTasks() {
-        assertThat(controller.veryImportantTasks((long) 1).size()).isEqualTo(1);
-    }
 }

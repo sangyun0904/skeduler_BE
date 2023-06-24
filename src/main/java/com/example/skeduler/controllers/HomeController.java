@@ -25,14 +25,5 @@ public class HomeController {
        return taskService.getAllTasks(userId);
     }
 
-    @GetMapping("/medium/{userId}")
-    public List<Task> importantTasks(@PathVariable Long userId) {
-        return taskService.getImportantTasks(userId);
-    }
-
-    @GetMapping("/high/{userId}")
-    public List<Task> veryImportantTasks(@PathVariable Long userId) {
-        return taskService.getVeryImportantTasks(userId);
-    }
 
 }
