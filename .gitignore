@@ -40,3 +40,5 @@ application.yml
 application.properties
 rootkey.csv
 .terraform*
+
+.env
