@@ -84,15 +84,3 @@ resource "aws_instance" "skeduler-app-server" {
     Name = "Skeduler AppServer Instance"
   }
 }
-
-
-resource "aws_db_instance" "skeduler-db" {
-    allocated_storage   = 10
-    db_name             = "skeduler"
-    engine              = "mysql"
-    engine_version      = "5.7"
-    instance_class      = "db.t3.micro"
-    username            = "foo"
-    password            = "foobarbaz"
-    skip_final_snapshot = true
-}

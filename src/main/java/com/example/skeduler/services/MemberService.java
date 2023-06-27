@@ -1,6 +1,7 @@
 package com.example.skeduler.services;
 
 import com.example.skeduler.model.Member;
+import com.example.skeduler.model.News;
 import com.example.skeduler.repositories.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +16,14 @@ public class MemberService implements UserDetailsService {
 
     @Override
     public Member loadUserByUsername(String username) throws UsernameNotFoundException {
+        News news = new News();
+
+        news.hashCode();
+
         return memberRepository.findByUsername(username)
             .orElseGet(null);
+
+
+
     }
 }
