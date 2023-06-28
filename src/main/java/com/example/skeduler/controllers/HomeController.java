@@ -1,5 +1,6 @@
 package com.example.skeduler.controllers;
 
+import com.example.skeduler.exception.ApiRequestException;
 import com.example.skeduler.model.Task;
 import com.example.skeduler.services.TaskService;
 import lombok.RequiredArgsConstructor;
@@ -13,16 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/home")
+@RequestMapping("")
 @RequiredArgsConstructor
 public class HomeController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final TaskService taskService;
 
-    @GetMapping("/{userId}")
-    public List<Task> tasks(@PathVariable Long userId) {
-       return taskService.getAllTasks(userId);
+    @GetMapping("/error")
+    public List<Task> error() {
+        throw new ApiRequestException("cannot get all tasks");
+//        return taskService.getAllTasks((long) 1);
     }
 
 
