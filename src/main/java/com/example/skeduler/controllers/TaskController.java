@@ -1,5 +1,6 @@
 package com.example.skeduler.controllers;
 
+import com.example.skeduler.model.Member;
 import com.example.skeduler.model.Task;
 import com.example.skeduler.services.JwtService;
 import com.example.skeduler.services.MemberService;
@@ -32,9 +33,9 @@ public class TaskController {
         final String jwt = authHeader.substring(7);
         String username = jwtService.extractUsername(jwt);
 
-        long userId = memberService.loadUserByUsername(username).getId();
+        Member member = memberService.loadUserByUsername(username);
 
-        return taskService.getAllTasks(userId);
+        return taskService.getAllTasks(member);
     }
 
     @PostMapping("/")
@@ -48,9 +49,9 @@ public class TaskController {
         final String jwt = authHeader.substring(7);
         String username = jwtService.extractUsername(jwt);
 
-        long userId = memberService.loadUserByUsername(username).getId();
+        Member member = memberService.loadUserByUsername(username);
 
-        List<Task> taskList = taskService.getDayTask(userId, day);
+        List<Task> taskList = taskService.getDayTask(member, day);
         LocalTime firstTaskTime = taskList.get(0).getStartDateTime().toLocalTime();
         if (taskList.size() != 0) {
             if (firstTaskTime.compareTo(LocalTime.NOON) < 0) {
@@ -67,9 +68,9 @@ public class TaskController {
         final String jwt = authHeader.substring(7);
         String username = jwtService.extractUsername(jwt);
 
-        long userId = memberService.loadUserByUsername(username).getId();
+        Member member = memberService.loadUserByUsername(username);
 
-        return taskService.getImportantTasks(userId);
+        return taskService.getImportantTasks(member);
     }
 
     @GetMapping("/high/")
@@ -78,9 +79,9 @@ public class TaskController {
         final String jwt = authHeader.substring(7);
         String username = jwtService.extractUsername(jwt);
 
-        long userId = memberService.loadUserByUsername(username).getId();
+        Member member = memberService.loadUserByUsername(username);
 
-        return taskService.getVeryImportantTasks(userId);
+        return taskService.getVeryImportantTasks(member);
     }
 
 }

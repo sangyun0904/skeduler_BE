@@ -1,3 +1,6 @@
 package com.example.skeduler.dto;
 
-public record TaskDto(String title, String content, Long userId, String startDate, String startTime, boolean important, boolean veryImportant) {}
+import com.example.skeduler.model.Category;
+import com.example.skeduler.model.Member;
+
+public record TaskDto(String title, String content, Member member, String startDate, String startTime, boolean important, boolean veryImportant, Category category) {}

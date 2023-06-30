@@ -18,19 +18,5 @@ class HomeControllerTest {
     @Autowired
     HomeController controller;
 
-    @Autowired
-    TaskService taskService;
-
-    @BeforeAll
-    void beforeAll() {
-        taskService.create(new TaskDto("hello very important", "hello very important task",  (long) 1, "2023-01-01", "10:30", true, true));
-        taskService.create(new TaskDto("hello important", "hello important task",  (long) 1, "2023-01-02", "10:30", true, false));
-        taskService.create(new TaskDto("hello", "hello task",  (long) 1, "2023-01-03", "10:30", false, false));
-    }
-
-    @Test
-    void tasks() {
-        assertThat(controller.tasks((long) 1).size()).isEqualTo(3);
-    }
 
 }

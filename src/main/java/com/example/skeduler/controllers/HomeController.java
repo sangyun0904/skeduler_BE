@@ -19,7 +19,6 @@ import java.util.List;
 public class HomeController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
-    private final TaskService taskService;
 
     @GetMapping("/error")
     public List<Task> error() {

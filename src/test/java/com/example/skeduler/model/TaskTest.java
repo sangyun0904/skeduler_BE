@@ -1,20 +1,48 @@
 package com.example.skeduler.model;
 
+import com.example.skeduler.dto.TaskDto;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 
-import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class TaskTest {
 
+    private Member member = Member
+            .builder()
+            .id((long) 1)
+            .username("sang")
+            .password("pass")
+            .email("sang@gmail.com")
+            .githubId("sang")
+            .build();
+
+    private Category category = new Category((long) 1, "Finance", Collections.emptyList(), Collections.emptyList());
+
+    @Test
+    void fromDto() {
+        TaskDto taskDto = new TaskDto("hello very important", "hello very important task", member, "2022-01-01", "10:30", true, true, category);
+        Task task = Task.builder()
+                .title(taskDto.title())
+                .member(taskDto.member())
+                .category(taskDto.category())
+                .content(taskDto.content())
+                .startDateTime(LocalDateTime.parse(taskDto.startDate() + "T" + taskDto.startTime() + ":00"))
+                .important(taskDto.important())
+                .veryImportant(taskDto.veryImportant())
+                .build();
+        System.out.println(task);
+
+    }
+
     @Test
     void getStartDateTime() {
         LocalDateTime timenow = LocalDateTime.now();
 
-        Task task = new Task((long) 1, "hello", "", (long) 1, timenow, timenow, true, true);
+        Task task = new Task((long) 1, member, category, "hello", "", timenow, timenow, true, true);
 
         assertThat(task.getStartDateTime()).isEqualTo(timenow);
     }
@@ -25,7 +53,7 @@ class TaskTest {
 
         Task task = Task.builder()
                 .id((long) 1)
-                .userId((long) 1)
+                .member(member)
                 .title("hello")
                 .uploadDateTime(timenow)
                 .startDateTime(LocalDateTime.now())
@@ -39,13 +67,13 @@ class TaskTest {
 
         Task task = Task.builder()
                 .id((long) 1)
-                .userId((long) 1)
+                .member(member)
                 .title("hello")
                 .uploadDateTime(LocalDateTime.now())
                 .startDateTime(LocalDateTime.now())
                 .build();
 
-        assertThat(task.getUserId()).isEqualTo((long) 1);
+        assertThat(task.getMember().getId()).isEqualTo((long) 1);
     }
 
     @Test
@@ -55,7 +83,7 @@ class TaskTest {
 
         Task task = Task.builder()
                 .id((long) 1)
-                .userId((long) 1)
+                .member(member)
                 .title("hello")
                 .uploadDateTime(upload)
                 .startDateTime(start)
@@ -63,7 +91,7 @@ class TaskTest {
 
         assertThat(Task.builder()
                 .id((long) 1)
-                .userId((long) 1)
+                .member(member)
                 .title("hello")
                 .uploadDateTime(upload)
                 .startDateTime(start)
@@ -90,7 +118,7 @@ class TaskTest {
 
         assertThrows(NullPointerException.class, () -> Task.builder()
                 .id((long) 1)
-                .userId((long) 1)
+                .member(member)
                 .title(null)
                 .uploadDateTime(upload)
                 .startDateTime(start)
@@ -98,7 +126,7 @@ class TaskTest {
 
         assertThrows(NullPointerException.class, () -> Task.builder()
                 .id((long) 1)
-                .userId(null)
+                .member(null)
                 .title("hello")
                 .uploadDateTime(upload)
                 .startDateTime(start)
@@ -106,17 +134,11 @@ class TaskTest {
 
         assertThrows(NullPointerException.class, () -> Task.builder()
                 .id((long) 1)
-                .userId((long) 1)
+                .member(member)
                 .title("hello")
                 .uploadDateTime(upload)
                 .startDateTime(null)
                 .build());
     }
 
-    @Test
-    void constructorException() {
-        assertThrows(NullPointerException.class, () -> new Task((long) 1, null, "content", (long) 1, LocalDateTime.now(), LocalDateTime.now(), true, true));
-        assertThrows(NullPointerException.class, () -> new Task((long) 1, "title", "content", null, LocalDateTime.now(), LocalDateTime.now(), true, true));
-        assertThrows(NullPointerException.class, () -> new Task((long) 1, "title", "content", (long) 1, null, LocalDateTime.now(), true, true));
-    }
 }

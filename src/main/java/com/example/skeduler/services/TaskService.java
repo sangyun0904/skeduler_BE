@@ -1,5 +1,6 @@
 package com.example.skeduler.services;
 
+import com.example.skeduler.model.Member;
 import com.example.skeduler.model.Task;
 import com.example.skeduler.dto.TaskDto;
 import com.example.skeduler.repositories.TaskRepository;
@@ -21,14 +22,15 @@ public class TaskService {
 
 
     public long create(TaskDto taskDto) {
-        long userId = taskDto.userId();
+        Member member = taskDto.member();
         LocalDateTime dateTime = LocalDateTime.parse(taskDto.startDate() + "T" + taskDto.startTime() + ":00");
 
-        validateTask(userId, dateTime);
+        validateTask(member, dateTime);
 
         Task task = Task.builder()
                 .title(taskDto.title())
-                .userId(taskDto.userId())
+                .member(taskDto.member())
+                .category(taskDto.category())
                 .content(taskDto.content())
                 .startDateTime(LocalDateTime.parse(taskDto.startDate() + "T" + taskDto.startTime() + ":00"))
                 .important(taskDto.important())
@@ -39,22 +41,22 @@ public class TaskService {
 
     }
 
-    public Optional<Task> getTask(Long id) { return taskRepository.findById(id); }
+    public Optional<Task> getTask(long id) { return taskRepository.findById(id); }
 
-    public List<Task> getAllTasks(Long userId) {
-        return taskRepository.findByUserId(userId);
+    public List<Task> getAllTasks(Member member) {
+        return taskRepository.findByMember(member);
     }
 
-    public List<Task> getImportantTasks(Long userId) {
-        return taskRepository.findByUserIdAndImportantTrue(userId);
+    public List<Task> getImportantTasks(Member member) {
+        return taskRepository.findByMember(member);
     }
 
-    public List<Task> getVeryImportantTasks(Long userId) {
-        return taskRepository.findByUserIdAndVeryImportantTrue(userId);
+    public List<Task> getVeryImportantTasks(Member member) {
+        return taskRepository.findByMemberAndVeryImportantTrue(member);
     }
 
-    private void validateTask(Long userId, LocalDateTime startTime) {
-        taskRepository.findByUserIdAndStartDateTime(userId, startTime)
+    private void validateTask(Member member, LocalDateTime startTime) {
+        taskRepository.findByMemberAndStartDateTime(member, startTime)
                 .ifPresent(e -> {
                     throw new IllegalStateException("그 시간은 이미 채워져 있습니다.");
                 });
@@ -64,7 +66,7 @@ public class TaskService {
         Task task = Task.builder()
                 .id(taskId)
                 .title(taskDto.title())
-                .userId(taskDto.userId())
+                .member(taskDto.member())
                 .content(taskDto.content())
                 .startDateTime(LocalDateTime.parse(taskDto.startDate() + "T" + taskDto.startTime() + ":00"))
                 .important(taskDto.important())
@@ -76,7 +78,7 @@ public class TaskService {
 
     }
 
-    public List<Task> getDayTask(Long userId, LocalDate date) {
-        return taskRepository.findByUserIdAndDate(userId, date.toString());
+    public List<Task> getDayTask(Member member, LocalDate date) {
+        return taskRepository.findByMemberAndDate(member.getId(), date.toString());
     }
 }
