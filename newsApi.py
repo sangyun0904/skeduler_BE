@@ -1,5 +1,6 @@
 import mysql.connector
 import os
+import csv
 from dotenv import load_dotenv
 from newsapi import NewsApiClient
 from datetime import datetime
@@ -45,3 +46,14 @@ for article in all_articles:
 
 
 cnx.close()
+
+with open("news.csv", 'a') as file:
+    writer = csv.writer(file)
+
+    for article in all_articles:
+        data = [article['title'], article['author'], article['description'], article['url'], article['urlToImage'], article["publishedAt"], article['content']]
+        writer.writerow(data)
+
+        data.rem
+
+    file.close()

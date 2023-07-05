@@ -42,3 +42,7 @@ rootkey.csv
 .terraform*
 
 .env
+
+news.csv
+uci-news-aggregator.csv
+.ipynb_checkpoints
