@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -21,19 +23,20 @@ public class Task {
     @ManyToOne
     private Member member;
     @NotBlank
-    @Column(nullable = false)
     private String title;
     @Lob
     @NotBlank
     private String content = "";
     @NotNull
-    @Column(nullable = false)
-    private LocalDateTime startDateTime;
+    private LocalDate startDate;
+    private LocalTime startTime;
     @NotNull
-    private LocalDateTime endDateTime;
+    private LocalDate endDate;
+    private LocalTime endTime;
     @Builder.Default
     private final LocalDateTime uploadDateTime = LocalDateTime.now();
     @Builder.Default
+    @Enumerated(value = EnumType.STRING)
     private Importance importance = Importance.NORMAL;
 
 

@@ -16,9 +16,6 @@ public class MemberService implements UserDetailsService {
 
     @Override
     public Member loadUserByUsername(String username) throws UsernameNotFoundException {
-        News news = new News();
-
-        news.hashCode();
 
         return memberRepository.findByUsername(username)
             .orElseGet(null);
