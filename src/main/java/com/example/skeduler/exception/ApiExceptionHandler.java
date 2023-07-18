@@ -20,7 +20,7 @@ public class ApiExceptionHandler {
                 e.getMessage(),
                 e,
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of("2"))
+                ZonedDateTime.now(ZoneId.of("Asia/Seoul"))
         );
         // 2. Return response entity
         return new ResponseEntity<>(apiException, badRequest);

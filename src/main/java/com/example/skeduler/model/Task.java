@@ -1,6 +1,9 @@
 package com.example.skeduler.model;
 
+import com.example.skeduler.model.enums.Importance;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,35 +20,21 @@ public class Task {
     private Long id;
     @ManyToOne
     private Member member;
-    @ManyToOne
-    private Category category;
-    @NonNull
+    @NotBlank
     @Column(nullable = false)
     private String title;
-    @Builder.Default
+    @Lob
+    @NotBlank
     private String content = "";
-    @NonNull
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime startDateTime;
+    @NotNull
+    private LocalDateTime endDateTime;
     @Builder.Default
     private final LocalDateTime uploadDateTime = LocalDateTime.now();
     @Builder.Default
-    private boolean important = false;
-    @Builder.Default
-    private boolean veryImportant = false;
+    private Importance importance = Importance.NORMAL;
 
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", member=" + member +
-                ", startDateTime=" + startDateTime +
-                ", uploadDateTime=" + uploadDateTime +
-                ", important=" + important +
-                ", veryImportant=" + veryImportant +
-                ", category=" + category +
-                '}';
-    }
+
 }

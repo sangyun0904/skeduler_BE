@@ -22,9 +22,6 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category")
-    private List<Task> tasks = new ArrayList<Task>();
-
-    @OneToMany(mappedBy = "category")
     private List<News> news = new ArrayList<News>();
 
 }
