@@ -43,4 +43,15 @@ public class TaskController {
         return taskService.create(taskDto);
     }
 
+    @GetMapping("/{day}")
+    public List<Task> allDayTask(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @RequestParam("day") String day) {
+        LocalDate date = LocalDate.parse(day);
+
+        final String jwt = authHeader.substring(7);
+        String username = jwtService.extractUsername(jwt);
+
+        Member member = memberService.loadUserByUsername(username);
+
+        return taskService.getAllDayTasks(member, date);
+    }
 }

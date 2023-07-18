@@ -25,7 +25,6 @@ public class TaskService {
 
     public long create(TaskCreateDto taskDto) {
         Member member = taskDto.member();
-        LocalDateTime dateTime = LocalDateTime.parse(taskDto.startDate() + "T" + taskDto.startTime() + ":00");
 
         Task task = Task.builder()
                 .title(taskDto.title())
@@ -68,4 +67,7 @@ public class TaskService {
 
     }
 
+    public List<Task> getAllDayTasks(Member member, LocalDate date) {
+        return taskRepository.findAllByMemberAndDate(member.getId(), date);
+    }
 }
